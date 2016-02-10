@@ -32,7 +32,10 @@ def zhihu():
             pic_urls = str(re.findall('data-actualsrc="(.*?)"',question_html,re.S))
             f.writelines(pic_urls+'\n')
             print(pic_urls)
-        print (r'第(%s/%s)页抓取完毕'%(page,page_max)+str(100*page/page_max)+'%')
+        an = str(100*page/page_max).split('.')[0]
+        print (r'第(%s/%s)页抓取完毕'%(page,page_max)+an+'%')
+        time_now = str(time.time()-time_start).split('.')[0]
+        print('程序运行时间:%ss'%time_now)
     f.close()
     #处理答案页面，保留图片url
     f = open('./%s/%s图片链接1.txt'%(name,name),'r')
@@ -41,13 +44,15 @@ def zhihu():
         x = 'h'+x
         f_1 = open('./%s/%s图片链接.txt'%(name,name),'a+')
         f_1.writelines(x+'\n')
-        print(f_1)
     print ('%s图片链接生成完毕'%name)
     #开始下载图片
-    f = open ('./%s/%s图片链接.txt'%(name,name),'r')
+    print ('开始下载图片')
+    f= open ('./%s/%s图片链接.txt'%(name,name),'r')
+    f= f.readlines()
+    num = len(f)
     false = open('./%s/无法下载的链接.txt'%name,'a+')
     pic_name = 0
-    for image in f.readlines():
+    for image in f:
         image = image.strip('\n')
         format=image.split(".")[-1]
         pic_name = pic_name+1
@@ -55,19 +60,28 @@ def zhihu():
             image = requests.get(image)
             with open('./%s/%s.%s'%(name,pic_name,format),'wb') as images:
                 images.write(image.content)
+                an =str(100*pic_name/num).split('.')[0]
+                print ('第%s张下载完毕   '%pic_name+an+'%')
         except:
                 false.writelines(str(image)+'\n')
+        time_now = str(time.time()-time_start).split('.')[0]
+        print ('程序运行时间%ss'%time_now)
     #删除程序运行残留
-    # os.remove('./%s/所有图片链接.txt'%name)
+    print('删除程序运行残留')
+    os.remove('./%s/%s图片链接.txt'%(name,name))
     os.remove('./%s/%s图片链接1.txt'%(name,name))
+    #多线程 收藏夹方式抓取  子问题或者母问题获取 获取相关问题 命名问题～～～
+    #每一步都来一个运行时长
+    #下载了多少图片 剩余多少图片
         #要不把所有页面先保存到txt里面 再读取？还是直接for in 出来直接抓取图片－－尝试两个方法好了－－
         #我想把所有结果爬取下来 生成一个html文件 可以直接看问题内容 超链接直接点开地址 后面是问题关注人数 问题回答人数
         #获取所有页面源代码 取出问题链接＋提问都作者 生成一个TXT 内容为问问题者＋问题标题
 #问题名字建立文件夹 答主名字命名照片 IOT_1 IOT_2 etc
 if __name__=='__main__':
     #话题URL在此修改
-    url = ("https://www.zhihu.com/topic/19552207/questions")
     time_start = time.time()
+    url = ("https://www.zhihu.com/topic/19663352/questions")
     zhihu()
     time_end = time.time()
-    print ('程序运行时间为%s s'%(time_end-time_start))
+    time = str(time_end-time_start).split('.')[0]
+    print ('程序运行时间为%ss'%time)
