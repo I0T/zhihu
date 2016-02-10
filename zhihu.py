@@ -46,17 +46,17 @@ def zhihu():
     #开始下载图片
     f = open ('./%s/%s图片链接.txt'%(name,name),'r')
     false = open('./%s/无法下载的链接.txt'%name,'a+')
-    name = 0
+    pic_name = 0
     for image in f.readlines():
         image = image.strip('\n')
         format=image.split(".")[-1]
-        name = name+1
+        pic_name = pic_name+1
         try:
             image = requests.get(image)
-            with open('./%s/%s.%s'%(name,name,format),'wb') as images:
+            with open('./%s/%s.%s'%(name,pic_name,format),'wb') as images:
                 images.write(image.content)
         except:
-                false.writelines(image+'\n')
+                false.writelines(str(image)+'\n')
     #删除程序运行残留
     # os.remove('./%s/所有图片链接.txt'%name)
     os.remove('./%s/%s图片链接1.txt'%(name,name))
@@ -66,7 +66,7 @@ def zhihu():
 #问题名字建立文件夹 答主名字命名照片 IOT_1 IOT_2 etc
 if __name__=='__main__':
     #话题URL在此修改
-    url = ("https://www.zhihu.com/topic/19584431/questions")
+    url = ("https://www.zhihu.com/topic/19552207/questions")
     time_start = time.time()
     zhihu()
     time_end = time.time()
