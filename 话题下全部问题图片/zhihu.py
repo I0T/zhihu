@@ -80,7 +80,7 @@ def zhihu():
 if __name__=='__main__':
     #话题URL在此修改
     time_start = time.time()
-    url = ("https://www.zhihu.com/topic/19663352/questions")
+    url = ("https://www.zhihu.com/topic/19805970/questions")
     zhihu()
     time_end = time.time()
     time = str(time_end-time_start).split('.')[0]
