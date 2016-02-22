@@ -11,8 +11,8 @@ class download(threading.Thread):
         main()
 def main():
     time_start = time.time()
-    print ('开始下载图片')
-    name = 'name'
+    print ('[%s]开始下载图片'%time.strftime("%X"))
+    name = '成人内容'
     f= open ('./%s/%s图片链接.txt'%(name,name),'r')
     f= f.readlines()
     num = len(f)
@@ -27,7 +27,7 @@ def main():
             with open('./%s/%s.%s'%(name,pic_name,format),'wb') as images:
                images.write(image.content)
                an =str(100*pic_name/num).split('.')[0]
-               print (time.strftime("%X")+'  第%s张下载完毕   '%pic_name+an+'%')
+               print ('[%s]第%s/%s张下载完毕 '%(time.strftime("%X"),pic_name,num)+an+'%')
         except:
                false.writelines(str(image)+'\n')
         time_now = str(time.time()-time_start).split('.')[0]
